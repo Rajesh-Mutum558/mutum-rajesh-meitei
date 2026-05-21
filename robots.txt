@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rajesh-mutum558.github.io/mutum-rajesh-meitei/sitemap.xml
