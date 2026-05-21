@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rajesh Meitei — Electronics & Embedded Systems</title>
+  <meta name="description" content="Mutum Rajesh Meitei — MTech at IISc Bangalore. FPGA, VLSI, Embedded Systems & Hardware Security.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ═══════ LIGHT THEME ═══════ */
+    [data-theme="light"] {
+      --fg: #1b1b18;
+      --fg2: #4a4a45;
+      --fg3: #8a8a82;
+      --bg: #eae6dd;
+      --bg2: #e0dbd0;
+      --card: rgba(255,255,255,.50);
+      --accent: #b44a2d;
+      --accent2: #2d6a4f;
+      --accent3: #3d5a80;
+      --teal: #3a8f85;
+      --border: rgba(0,0,0,.08);
+      --nav-bg: rgba(234,230,221,.78);
+      --nav-mob: rgba(234,230,221,.96);
+      --blob-bg: linear-gradient(135deg, rgba(180,74,45,.12), rgba(45,106,79,.10), rgba(61,90,128,.08));
+      --body-grad1: rgba(180,74,45,.06);
+      --body-grad2: rgba(45,106,79,.05);
+      --body-grad3: rgba(61,90,128,.04);
+      --tag-g-bg: rgba(45,106,79,.1);
+      --tag-b-bg: rgba(61,90,128,.1);
+      --tag-w-bg: rgba(180,74,45,.1);
+      --tag-t-bg: rgba(58,143,133,.1);
+      --bar-bg: rgba(0,0,0,.06);
+      --logo-bg: var(--bg);
+      --selection: rgba(180,74,45,.15);
+      --img-border: rgba(0,0,0,.06);
+    }
+
+    /* ═══════ DARK THEME ═══════ */
+    [data-theme="dark"] {
+      --fg: #e8e6e1;
+      --fg2: #b0ada5;
+      --fg3: #6e6c65;
+      --bg: #161614;
+      --bg2: #1e1e1b;
+      --card: rgba(255,255,255,.06);
+      --accent: #e07050;
+      --accent2: #5ab87a;
+      --accent3: #6a9fd8;
+      --teal: #5ac0b4;
+      --border: rgba(255,255,255,.08);
+      --nav-bg: rgba(22,22,20,.82);
+      --nav-mob: rgba(22,22,20,.96);
+      --blob-bg: linear-gradient(135deg, rgba(224,112,80,.15), rgba(90,184,122,.10), rgba(106,159,216,.08));
+      --body-grad1: rgba(224,112,80,.06);
+      --body-grad2: rgba(90,184,122,.04);
+      --body-grad3: rgba(106,159,216,.03);
+      --tag-g-bg: rgba(90,184,122,.12);
+      --tag-b-bg: rgba(106,159,216,.12);
+      --tag-w-bg: rgba(224,112,80,.12);
+      --tag-t-bg: rgba(90,192,180,.12);
+      --bar-bg: rgba(255,255,255,.08);
+      --logo-bg: var(--bg2);
+      --selection: rgba(224,112,80,.2);
+      --img-border: rgba(255,255,255,.06);
+    }
+
+    :root {
+      --r: 14px;
+      --font-h: 'Fraunces', Georgia, serif;
+      --font-b: 'Inter', system-ui, sans-serif;
+      --mw: 1060px;
+      --px: clamp(1.5rem, 5vw, 4rem);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-b); color: var(--fg); line-height: 1.7;
+      -webkit-font-smoothing: antialiased; font-size: 15px;
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse at 20% 50%, var(--body-grad1) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, var(--body-grad2) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 80%, var(--body-grad3) 0%, transparent 50%);
+      min-height: 100vh; transition: background .4s, color .4s;
+    }
+    ::selection { background: var(--selection); }
+    a { color: var(--accent); text-decoration: none; transition: .2s; }
+    a:hover { color: var(--fg); }
+
+    /* ── NAV ── */
+    .nav { position: fixed; inset: 0 0 auto; z-index: 100; background: var(--nav-bg); backdrop-filter: blur(24px) saturate(1.4); border-bottom: 1px solid var(--border); transition: background .4s; }
+    .nav-in { max-width: var(--mw); margin: 0 auto; padding: .75rem var(--px); display: flex; justify-content: space-between; align-items: center; }
+    .nav-logo { font-family: var(--font-h); font-size: 1.1rem; color: var(--fg); font-weight: 500; }
+    .nav-links { list-style: none; display: flex; gap: 1.8rem; align-items: center; }
+    .nav-links a { color: var(--fg2); font-size: .75rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+    .nav-links a:hover { color: var(--accent); }
+    .burger { display: none; background: none; border: none; cursor: pointer; }
+    .burger span { display: block; width: 22px; height: 1.5px; background: var(--fg); margin: 5px 0; transition: background .3s; }
+
+    /* Theme toggle */
+    .theme-btn {
+      background: none; border: 1.5px solid var(--border); border-radius: 50%;
+      width: 34px; height: 34px; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-size: .9rem; color: var(--fg2); transition: all .3s;
+    }
+    .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── LAYOUT ── */
+    .w { max-width: var(--mw); margin: 0 auto; padding: 0 var(--px); }
+    .sec { padding: 5rem 0; }
+    .sec-head { margin-bottom: 2.5rem; }
+    .sec-num { font-family: var(--font-h); font-size: .85rem; color: var(--accent); font-weight: 300; font-style: italic; display: block; margin-bottom: .3rem; }
+    .sec-title { font-family: var(--font-h); font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 400; letter-spacing: -.02em; line-height: 1.2; }
+    .sep { height: 1px; background: var(--border); max-width: var(--mw); margin: 0 auto; }
+
+    /* ── HERO ── */
+    .hero { padding: 10rem 0 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .hero-eyebrow { font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .15em; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: .6rem; }
+    .hero-eyebrow::before { content: ''; width: 24px; height: 1.5px; background: var(--accent); }
+    .hero h1 { font-family: var(--font-h); font-weight: 300; font-size: clamp(2.6rem, 6vw, 4rem); line-height: 1.08; letter-spacing: -.03em; margin-bottom: 1.5rem; }
+    .hero h1 em { font-style: italic; font-weight: 400; }
+    .hero-sub { font-size: 1rem; color: var(--fg2); max-width: 440px; margin-bottom: 2rem; line-height: 1.8; }
+    .hero-sub strong { color: var(--fg); }
+    .hero-actions { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .btn { display: inline-flex; align-items: center; gap: .4rem; padding: .55rem 1.2rem; border-radius: 8px; font-size: .82rem; font-weight: 600; font-family: var(--font-b); transition: all .25s; border: none; cursor: pointer; }
+    .btn-a { background: var(--accent); color: #fff; }
+    .btn-a:hover { filter: brightness(1.1); color: #fff; transform: translateY(-1px); }
+    .btn-b { border: 1.5px solid var(--border); color: var(--fg); background: var(--card); }
+    .btn-b:hover { border-color: var(--accent); color: var(--accent); }
+    .soc { display: flex; gap: .8rem; }
+    .soc a { color: var(--fg3); font-size: 1.1rem; }
+    .soc a:hover { color: var(--accent); }
+
+    /* Hero photo */
+    .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+    .hero-photo-wrap {
+      width: 320px; max-width: 100%;
+      border-radius: 20px;
+      background: var(--blob-bg);
+      padding: 6px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,.08);
+      transition: transform .4s, box-shadow .4s;
+    }
+    .hero-photo-wrap:hover { transform: translateY(-4px); box-shadow: 0 18px 50px rgba(0,0,0,.12); }
+    .hero-photo {
+      width: 100%; height: auto;
+      border-radius: 16px;
+      object-fit: contain;
+      display: block;
+      border: 2px solid var(--img-border);
+    }
+    /* Fallback when no photo */
+    .hero-photo-placeholder {
+      width: 100%; aspect-ratio: 3/4;
+      border-radius: 16px;
+      background: var(--card); backdrop-filter: blur(8px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-family: var(--font-h); color: var(--fg2); text-align: center; padding: 2rem;
+    }
+    .hero-photo-placeholder .initials { font-size: 3.5rem; font-weight: 300; color: var(--accent); line-height: 1; margin-bottom: .3rem; }
+    .hero-photo-placeholder .subtitle { font-size: .8rem; color: var(--fg3); }
+
+    /* ── SKILLS ── */
+    .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .tag { padding: .28rem .7rem; border-radius: 6px; font-size: .74rem; font-weight: 500; }
+    .tg { background: var(--tag-g-bg); color: var(--accent2); }
+    .tb { background: var(--tag-b-bg); color: var(--accent3); }
+    .tw { background: var(--tag-w-bg); color: var(--accent); }
+    .tt { background: var(--tag-t-bg); color: var(--teal); }
+    .bars { display: flex; flex-direction: column; gap: 1rem; }
+    .bar-label { font-size: .78rem; font-weight: 500; color: var(--fg2); margin-bottom: .25rem; display: flex; justify-content: space-between; }
+    .bar-track { height: 5px; background: var(--bar-bg); border-radius: 3px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 3px; width: 0; transition: width 1.5s cubic-bezier(.22,1,.36,1); }
+    .bf1 { background: var(--accent2); } .bf2 { background: var(--accent3); } .bf3 { background: var(--accent); }
+
+    /* ── EDUCATION ── */
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .edu-item { padding: 1.3rem; border-radius: var(--r); background: var(--card); backdrop-filter: blur(8px); border: 1px solid var(--border); transition: transform .3s, box-shadow .3s; }
+    .edu-item:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.05); }
+    .edu-top { display: flex; align-items: center; gap: .7rem; margin-bottom: .6rem; }
+    .edu-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; background: var(--logo-bg); padding: 2px; }
+    .edu-item h3 { font-size: .88rem; font-weight: 600; line-height: 1.3; }
+    .edu-item .meta { font-size: .73rem; color: var(--fg3); margin-bottom: .3rem; }
+    .edu-item .meta b { color: var(--fg2); }
+    .edu-item p { font-size: .8rem; color: var(--fg2); }
+
+    /* ── EXPERIENCE ── */
+    .exp-stream { position: relative; }
+    .exp-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--border); transform: translateX(-50%); }
+    .exp-row { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0; margin-bottom: 1.5rem; align-items: start; }
+    .exp-row:last-child { margin-bottom: 0; }
+    .exp-content { padding: 1.2rem; border-radius: var(--r); background: var(--card); backdrop-filter: blur(8px); border: 1px solid var(--border); transition: transform .3s; }
+    .exp-content:hover { transform: translateY(-2px); }
+    .exp-left .exp-content { text-align: right; }
+    .exp-dot-col { display: flex; justify-content: center; padding-top: 1.3rem; }
+    .exp-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--accent); background: var(--bg); z-index: 1; }
+    .exp-content .logo-row { display: flex; align-items: center; gap: .5rem; margin-bottom: .4rem; }
+    .exp-left .logo-row { justify-content: flex-end; }
+    .exp-content .exp-logo { width: 30px; height: 30px; border-radius: 6px; object-fit: contain; background: var(--logo-bg); padding: 2px; }
+    .exp-content h3 { font-size: .88rem; font-weight: 600; }
+    .exp-content .meta { font-size: .72rem; color: var(--fg3); margin-bottom: .3rem; }
+    .exp-content .meta span { color: var(--accent); font-weight: 600; }
+    .exp-content p { font-size: .8rem; color: var(--fg2); }
+
+    /* ── PROJECTS ── */
+    .proj-mosaic { columns: 2; column-gap: 1rem; }
+    .proj-item { break-inside: avoid; margin-bottom: 1rem; border-radius: var(--r); overflow: hidden; background: var(--card); backdrop-filter: blur(8px); border: 1px solid var(--border); transition: transform .3s, box-shadow .3s; }
+    .proj-item:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,.06); }
+    .proj-img { width: 100%; height: auto; display: block; }
+    .proj-body { padding: 1.1rem 1.2rem; }
+    .proj-tag { display: inline-block; font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; padding: .15rem .45rem; border-radius: 4px; margin-bottom: .4rem; }
+    .pt-fpga { background: var(--tag-g-bg); color: var(--accent2); }
+    .pt-vlsi { background: var(--tag-b-bg); color: var(--accent3); }
+    .pt-emb { background: var(--tag-w-bg); color: var(--accent); }
+    .pt-sec { background: rgba(107,79,160,.1); color: #9b7fd4; }
+    .pt-iot { background: var(--tag-t-bg); color: var(--teal); }
+    .proj-item h3 { font-size: .85rem; font-weight: 600; margin-bottom: .25rem; line-height: 1.35; }
+    .proj-item p { font-size: .78rem; color: var(--fg2); }
+
+    /* ── ACHIEVEMENTS ── */
+    .ach-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+    .ach-card { padding: 1.3rem; border-radius: var(--r); background: var(--card); backdrop-filter: blur(8px); border: 1px solid var(--border); transition: transform .3s, box-shadow .3s; }
+    .ach-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.05); }
+    .ach-top { display: flex; align-items: center; gap: .6rem; margin-bottom: .6rem; }
+    .ach-icon { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; background: var(--logo-bg); padding: 2px; }
+    .ach-emoji { width: 36px; height: 36px; border-radius: 8px; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .ach-card h3 { font-size: .84rem; font-weight: 600; margin-bottom: .2rem; }
+    .ach-card p { font-size: .76rem; color: var(--fg2); }
+
+    /* ── COMMUNITY ── */
+    .comm-list { display: flex; flex-direction: column; gap: 1rem; }
+    .comm-card { display: flex; gap: 1rem; align-items: flex-start; padding: 1.3rem 1.4rem; border-radius: var(--r); background: var(--card); backdrop-filter: blur(8px); border: 1px solid var(--border); transition: transform .3s, box-shadow .3s; }
+    .comm-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.05); }
+    .comm-logo { width: 40px; height: 40px; border-radius: 10px; object-fit: contain; background: var(--logo-bg); padding: 3px; flex-shrink: 0; margin-top: 2px; }
+    .comm-card h3 { font-size: .88rem; font-weight: 600; margin-bottom: .25rem; }
+    .comm-card p { font-size: .82rem; color: var(--fg2); line-height: 1.65; }
+
+    /* ── TALKS ── */
+    .talk-card { display: inline-flex; flex-direction: column; gap: .3rem; padding: 1.2rem 1.4rem; border-radius: var(--r); background: var(--card); backdrop-filter: blur(8px); border: 1px solid var(--border); }
+    .talk-card h3 { font-size: .9rem; font-weight: 600; }
+    .talk-card p { font-size: .8rem; color: var(--fg2); }
+    .talk-links { display: flex; gap: .8rem; margin-top: .3rem; }
+    .talk-links a { font-size: .78rem; font-weight: 600; }
+
+    /* ── CONTACT ── */
+    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .contact-items { display: flex; flex-direction: column; gap: .8rem; }
+    .ci { display: flex; align-items: center; gap: .6rem; font-size: .9rem; }
+    .ci i { color: var(--accent); width: 16px; text-align: center; font-size: .9rem; }
+    .contact-cta { font-family: var(--font-h); font-size: 1.6rem; font-weight: 300; line-height: 1.3; color: var(--fg2); }
+
+    /* ── FOOTER ── */
+    .foot { padding: 2.5rem var(--px); max-width: var(--mw); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: .73rem; color: var(--fg3); }
+
+    /* ── ANIMATION ── */
+    .rv { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+    .rv.on { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; padding: 1rem var(--px); background: var(--nav-mob); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); gap: .7rem; }
+      .burger { display: block; }
+      .hero { grid-template-columns: 1fr; padding-top: 7.5rem; }
+      .hero-visual { order: -1; margin-bottom: 1rem; }
+      .hero-photo-wrap { width: 240px; }
+      .skills-layout { grid-template-columns: 1fr; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .exp-line { display: none; }
+      .exp-row { grid-template-columns: 1fr; }
+      .exp-dot-col { display: none; }
+      .exp-empty { display: none; }
+      .exp-left .exp-content { text-align: left; }
+      .exp-left .logo-row { justify-content: flex-start; }
+      .proj-mosaic { columns: 1; }
+      .ach-grid { grid-template-columns: 1fr; }
+      .contact-layout { grid-template-columns: 1fr; }
+      .foot { flex-direction: column; gap: .5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <a href="#" class="nav-logo">Rajesh Meitei</a>
+    <div style="display:flex;align-items:center;gap:.8rem;">
+      <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme"><i class="fas fa-moon" id="theme-icon"></i></button>
+      <button class="burger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about" onclick="cm()">About</a></li>
+      <li><a href="#education" onclick="cm()">Education</a></li>
+      <li><a href="#experience" onclick="cm()">Experience</a></li>
+      <li><a href="#projects" onclick="cm()">Projects</a></li>
+      <li><a href="#achievements" onclick="cm()">Awards</a></li>
+      <li><a href="#contact" onclick="cm()">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<div class="w">
+<section class="hero sec" id="about">
+  <div class="hero-text rv">
+    <p class="hero-eyebrow">MTech @ IISc Bangalore</p>
+    <h1>Mutum<br>Rajesh<br><em>Meitei</em></h1>
+    <p class="hero-sub">
+      I design digital circuits, program FPGAs, build embedded systems, and explore hardware security.
+      Currently at <strong>IISc Bangalore</strong>, Dept. of Electronic Systems Engineering.
+    </p>
+    <div class="hero-actions">
+      <a href="https://drive.google.com/file/d/1iYqTXzpA_qf8L23EXCI250uWJ9EuAZKt/view?usp=drive_link" target="_blank" class="btn btn-a"><i class="fas fa-file-alt"></i> Resume</a>
+      <a href="mailto:rajeshmutum@iisc.ac.in" class="btn btn-b"><i class="fas fa-envelope"></i> Say Hello</a>
+    </div>
+    <div class="soc">
+      <a href="https://github.com/Rajesh-Mutum558" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/mutum-rajesh-meitei-141217222/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://stackoverflow.com/users/22186251/mutum-rajesh-meitei" target="_blank"><i class="fab fa-stack-overflow"></i></a>
+      <a href="https://www.facebook.com/mutumrajesh123/" target="_blank"><i class="fab fa-facebook"></i></a>
+    </div>
+  </div>
+  <div class="hero-visual rv">
+    <div class="hero-photo-wrap">
+      <!-- REPLACE: Change src to your photo file e.g. "images/rajesh.jpg" -->
+      <img src="images/Rajesh.png" alt="Rajesh Meitei" class="hero-photo"> 
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="sep"></div>
+
+<!-- ═══════ SKILLS ═══════ -->
+<div class="w">
+<section class="sec" id="skills">
+  <div class="rv">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2 class="sec-title">Skills & Toolkit</h2>
+    </div>
+    <div class="skills-layout">
+      <div>
+        <div class="tags">
+          <span class="tag tg">Verilog</span>
+          <span class="tag tg">FPGA Design</span>
+          <span class="tag tb">C Programming</span>
+          <span class="tag tb">Embedded C</span>
+          <span class="tag tw">Python</span>
+          <span class="tag tg">Cadence Virtuoso</span>
+          <span class="tag tg">Xilinx Vivado</span>
+          <span class="tag tb">Digital System Design</span>
+          <span class="tag tw">Hardware Security</span>
+          <span class="tag tt">Raspberry Pi</span>
+          <span class="tag tw">ATtiny85</span>
+          <span class="tag tt">Tiva C (TM4C123G)</span>
+          <span class="tag tb">STM32 / Bare-metal</span>
+          <span class="tag tt">PLC Programming</span>
+          <span class="tag tw">Mechatronics</span>
+          <span class="tag tb">Troubleshooting</span>
+          <span class="tag tg">Wire Fitting & Repair</span>
+        </div>
+      </div>
+      <div class="bars">
+        <div><div class="bar-label"><span>Verilog / FPGA</span><span>90%</span></div><div class="bar-track"><div class="bar-fill bf1" data-w="90"></div></div></div>
+        <div><div class="bar-label"><span>Python</span><span>70%</span></div><div class="bar-track"><div class="bar-fill bf2" data-w="70"></div></div></div>
+        <div><div class="bar-label"><span>C Programming</span><span>70%</span></div><div class="bar-track"><div class="bar-fill bf3" data-w="70"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="sep"></div>
+
+<!-- ═══════ EDUCATION ═══════ -->
+<div class="w">
+<section class="sec" id="education">
+  <div class="rv">
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Education</h2></div>
+    <div class="edu-grid">
+      <div class="edu-item">
+        <div class="edu-top"><img src="images/iisc_logo.png" alt="IISc" class="edu-logo"><h3>IISc Bangalore</h3></div>
+        <div class="meta"><b>MTech · Electronic Systems Engineering</b> · 2024 – Present</div>
+        <p>Hands-on FPGA, embedded systems projects, and hardware experiments with cutting-edge technology.</p>
+      </div>
+      <div class="edu-item">
+        <div class="edu-top"><img src="images/iit_madras.png" alt="IIT Madras" class="edu-logo"><h3>IIT Madras</h3></div>
+        <div class="meta"><b>BTech · Electrical Engineering</b> · 2023–24 · CGPA: 8.94</div>
+        <p>Final year completed after internship under Prof. Janakiraman. MOU collaborative program.</p>
+      </div>
+      <div class="edu-item">
+        <div class="edu-top"><img src="images/nit_manipur.jpeg" alt="NIT Manipur" class="edu-logo"><h3>NIT Manipur</h3></div>
+        <div class="meta"><b>BTech · ECE</b> · 2020–23 · CGPA: 9.04</div>
+        <p>Gold Medalist. Three years of learning, friendships, and building a strong foundation in electronics.</p>
+      </div>
+      <div class="edu-item">
+        <div class="edu-top"><img src="images/llmea.jpeg" alt="School" class="edu-logo"><h3>LMMEA, Imphal</h3></div>
+        <div class="meta"><b>School · up to 12th Grade</b> · 2010–2020</div>
+        <p>Class XII: 81.40% (COSEM) · Class X: 80.33% (BOSEM). Where engineering passion began.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="sep"></div>
+
+<!-- ═══════ EXPERIENCE ═══════ -->
+<div class="w">
+<section class="sec" id="experience">
+  <div class="rv">
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Experience</h2></div>
+    <div class="exp-stream">
+      <div class="exp-line"></div>
+      <div class="exp-row exp-left">
+        <div class="exp-content"><div class="logo-row"><h3>VLSI Optimization Intern</h3><img src="images/iit_madras.png" alt="IIT Madras" class="exp-logo"></div><div class="meta"><span>IIT Madras</span> · Jun–Jul 2023</div><p>Python-based VLSI gate sizing via Geometric Programming with MOSEK solver. Delay optimization under area constraints.</p></div>
+        <div class="exp-dot-col"><div class="exp-dot"></div></div><div class="exp-empty"></div>
+      </div>
+      <div class="exp-row">
+        <div class="exp-empty"></div><div class="exp-dot-col"><div class="exp-dot"></div></div>
+        <div class="exp-content"><div class="logo-row"><img src="images/air.jpeg" alt="AIR" class="exp-logo"><h3>Radio Transmitter Intern</h3></div><div class="meta"><span>All India Radio</span> · Jan–Feb 2023</div><p>Transmitter operations, signal transmission, equipment handling, and maintenance.</p></div>
+      </div>
+      <div class="exp-row exp-left">
+        <div class="exp-content"><div class="logo-row"><h3>Control & Relay Automation</h3><img src="images/siemens.png" alt="Siemens" class="exp-logo"></div><div class="meta"><span>Siemens, Goa</span> · Jun–Aug 2022</div><p>Panel automation, assembly, testing, and troubleshooting of high-power systems.</p></div>
+        <div class="exp-dot-col"><div class="exp-dot"></div></div><div class="exp-empty"></div>
+      </div>
+      <div class="exp-row">
+        <div class="exp-empty"></div><div class="exp-dot-col"><div class="exp-dot"></div></div>
+        <div class="exp-content"><div class="logo-row"><img src="images/mechatronics.png" alt="SITRAIN" class="exp-logo"><h3>Mechatronics Trainee</h3></div><div class="meta"><span>SITRAIN India</span> · Jan–Dec 2022</div><p>Electrical, mechanical, pneumatic systems, and PLC programming with ladder logic.</p></div>
+      </div>
+      <div class="exp-row exp-left">
+        <div class="exp-content"><div class="logo-row"><h3>Cyber Security Trainee</h3><img src="images/nielit.png" alt="NIELIT" class="exp-logo"></div><div class="meta"><span>NIELIT</span> · Mar–May 2022</div><p>Security measures, vulnerability analysis, and digital forensics techniques.</p></div>
+        <div class="exp-dot-col"><div class="exp-dot"></div></div><div class="exp-empty"></div>
+      </div>
+      <div class="exp-row">
+        <div class="exp-empty"></div><div class="exp-dot-col"><div class="exp-dot"></div></div>
+        <div class="exp-content"><div class="logo-row"><img src="images/mspdcl.jpeg" alt="MSPDCL" class="exp-logo"><h3>Power Equipment Intern</h3></div><div class="meta"><span>MSPDCL</span> · Dec 2021–Jan 2022</div><p>Transformer repair, 3-phase distribution, insulation, and fault diagnosis.</p></div>
+      </div>
+      <div class="exp-row exp-left">
+        <div class="exp-content"><div class="logo-row"><h3>Soft Skills Trainee</h3><img src="images/growth_centre.jpeg" alt="Growth Centre" class="exp-logo"></div><div class="meta"><span>Growth Centre</span> · 2020–2024</div><p>Teamwork, communication, leadership, and professional development.</p></div>
+        <div class="exp-dot-col"><div class="exp-dot"></div></div><div class="exp-empty"></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="sep"></div>
+
+<!-- ═══════ PROJECTS ═══════ -->
+<div class="w">
+<section class="sec" id="projects">
+  <div class="rv">
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">Projects</h2></div>
+    <div class="proj-mosaic">
+      <div class="proj-item"><img src="images/risc_v_n.png" alt="RISC-V" class="proj-img"><div class="proj-body"><div class="proj-tag pt-fpga">Ongoing · FPGA · Verilog</div><h3>32-bit RISC-V Processor Debug Module</h3><p>Debug module for real-time monitoring. V&V techniques on FPGA, guided by Chief Research Scientist Kuruvilla Varghese.</p></div></div>
+      <div class="proj-item"><img src="images/radix.png" alt="Booth Multiplier" class="proj-img"><div class="proj-body"><div class="proj-tag pt-vlsi">VLSI · Cadence</div><h3>16-bit Radix-4 Booth Multiplier</h3><p>Wallace Tree optimization, custom layout & verification in Cadence Virtuoso.</p></div></div>
+      <div class="proj-item"><img src="images/present.jpg" alt="PRESENT" class="proj-img"><div class="proj-body"><div class="proj-tag pt-sec">Security · Verilog · FPGA</div><h3>PRESENT Encryption + SHA-256</h3><p>Lightweight encryption with SHA-256 authentication on FPGA for hardware-level security.</p></div></div>
+      <div class="proj-item"><img src="images/probe.png" alt="Digital Probe" class="proj-img"><div class="proj-body"><div class="proj-tag pt-emb">Embedded C · ATtiny85</div><h3>Digital Signal Probe</h3><p>Detects high, low, floating, and toggling signal states for circuit debugging.</p></div></div>
+      <div class="proj-item"><img src="images/vga.jpg" alt="VGA" class="proj-img"><div class="proj-body"><div class="proj-tag pt-fpga">Ongoing · FPGA · RPi</div><h3>VGA Module — FPGA + Raspberry Pi</h3><p>MJPEG video from RPi via GPIO, decoded and displayed on VGA monitor using Basys 3.</p></div></div>
+      <div class="proj-item"><img src="images/traffic.jpg" alt="Traffic" class="proj-img"><div class="proj-body"><div class="proj-tag pt-iot">IoT · RPi · Python</div><h3>Traffic Light Sync via NTP</h3><p>NTP-based synchronization on Raspberry Pi for efficient traffic flow coordination.</p></div></div>
+      <div class="proj-item"><img src="images/sram.jpg" alt="SRAM" class="proj-img"><div class="proj-body"><div class="proj-tag pt-vlsi">VLSI</div><h3>In-Memory SRAM Accelerator</h3><p>Charge-domain computing with ADC conversion — better performance, less energy.</p></div></div>
+      <div class="proj-item"><img src="images/video.png" alt="STM32 DMA" class="proj-img"><div class="proj-body"><div class="proj-tag pt-emb">Bare-metal · STM32 · DMA</div><h3>Video Streaming on STM32 via DMA</h3><p>Direct Memory Access transfers video frames between memory and peripherals, eliminating CPU overhead for real-time, low-latency streaming.</p></div></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="sep"></div>
+
+<!-- ═══════ ACHIEVEMENTS ═══════ -->
+<div class="w">
+<section class="sec" id="achievements">
+  <div class="rv">
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Awards & Honors</h2></div>
+    <div class="ach-grid">
+      <div class="ach-card"><div class="ach-top"><img src="images/gold.jpeg" alt="Gold" class="ach-icon"><h3>Gold Medalist</h3></div><p>1st rank in ECE at NIT Manipur. Exceptional academic performance across all semesters.</p></div>
+      <div class="ach-card"><div class="ach-top"><img src="images/siemens.png" alt="Siemens" class="ach-icon"><h3>Siemens Scholarship</h3></div><p>Selected among 200 students across India in 2020 for academic excellence.</p></div>
+      <div class="ach-card"><div class="ach-top"><img src="images/g20.png" alt="G20" class="ach-icon"><h3>G20 Delegate</h3></div><p>Represented Manipur at IIT Indore — policy discussions on development and collaboration.</p></div>
+      <div class="ach-card"><div class="ach-top"><img src="images/ongc.webp" alt="ONGC" class="ach-icon"><h3>ONGC Scholarship</h3></div><p>Awarded by ONGC for meritorious performance in technical education.</p></div>
+      <div class="ach-card"><div class="ach-top"><img src="images/axis.jpg" alt="Axis" class="ach-icon"><h3>Axis Bank Fellowship</h3></div><p>For IISc students with BTech CGPA 8.5+. Awarded January 2024.</p></div>
+      <div class="ach-card"><div class="ach-top"><img src="images/iit_madras.png" alt="IIT Madras" class="ach-icon"><h3>MOU with IIT Madras</h3></div><p>Enrolled in a one-year collaborative program broadening research opportunities.</p></div>
+      <div class="ach-card"><div class="ach-top"><div class="ach-emoji">🥊</div><h3>Boxing Achievement</h3></div><p>Residential boxing training camp. Two years of experience in discipline and fitness.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="sep"></div>
+
+<!-- ═══════ COMMUNITY ═══════ -->
+<div class="w">
+<section class="sec" id="community">
+  <div class="rv">
+    <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">Community & Leadership</h2></div>
+    <div class="comm-list">
+      <div class="comm-card"><img src="images/iisc_logo.png" alt="IISc" class="comm-logo"><div><h3>IISc GATE/JAM Outreach — Ambassador</h3><p>Represented IISc in Kerala, presenting its programs, guiding students on GATE/JAM exams, and interacting with them directly to help them navigate admissions and research opportunities at IISc.</p></div></div>
+      <div class="comm-card"><img src="images/sfri.png" alt="SFRI" class="comm-logo"><div><h3>Science for Rural India (SFRI) — Member</h3><p>Connecting cutting-edge research with rural communities by sparking scientific curiosity in students through hands-on, observation-based learning. The initiative bridges the gap between premier researchers and rural populations, promoting education and fostering innovation in underdeveloped regions.</p></div></div>
+      <div class="comm-card"><img src="images/ivil_logo1.png" alt="IViL" class="comm-logo"><div><h3>IIT For Villages (IViL-IITM) — Member</h3><p>Supporting rural and remote communities by providing technical education, distributing essential products, and collaborating with NGOs to promote local development. IViL aims to bridge the urban-rural gap, equipping underserved populations with skills, resources, and knowledge for sustainable growth.</p></div></div>
+      <div class="comm-card"><img src="images/ignitronix.webp" alt="Ignitronix" class="comm-logo"><div><h3>NITIN IGNITRONIX CLUB — Administrator</h3><p>Led a group dedicated to hands-on learning in electronics — hardware assembly, practical projects, and creation of functional devices. Through collaborative projects, the club enhanced understanding of electronics and inspired innovation among students.</p></div></div>
+      <div class="comm-card"><img src="images/summer21.jpeg" alt="Summer 21" class="comm-logo"><div><h3>Summer 21 Club — Public Relations</h3><p>Contributing to a club focused on helping members with personality development, education, socialization, entertainment, psychological support, and financial assistance. The club's motto is to expand the definition of HELP — empowering members and creating a supportive community where everyone can grow together.</p></div></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="sep"></div>
+
+<!-- ═══════ TALKS ═══════ -->
+<div class="w">
+<section class="sec">
+  <div class="rv">
+    <div class="sec-head"><span class="sec-num">07</span><h2 class="sec-title">Talks & Broadcasts</h2></div>
+    <div class="talk-card">
+      <h3>Semiconductor Concepts — All India Radio</h3>
+      <p>Visited Akashvani Imphal to speak on semiconductor topics for public broadcast.</p>
+      <div class="talk-links">
+        <a href="https://youtu.be/HdXp159X3Vk?si=PmEqbUGvzUG4xkTX" target="_blank"><i class="fab fa-youtube"></i> Watch</a>
+        <a href="https://www.facebook.com/100063563571834/posts/pfbid0snVBkbLXR2MH4r6Zr7gKPKSzSqq1SKZ3GQFhVoHwtcgNGfr8DzQdjqNnj9dX7Ec8l/?app=fbl" target="_blank"><i class="fab fa-facebook"></i> Post</a>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="sep"></div>
+
+<!-- ═══════ CONTACT ═══════ -->
+<div class="w">
+<section class="sec" id="contact">
+  <div class="rv">
+    <div class="sec-head"><span class="sec-num">08</span><h2 class="sec-title">Get in Touch</h2></div>
+    <div class="contact-layout">
+      <div class="contact-cta">Have a project idea, research collaboration, or just want to chat? I'd love to hear from you.</div>
+      <div>
+        <div class="contact-items">
+          <div class="ci"><i class="fas fa-envelope"></i> <a href="mailto:rajeshmutum@iisc.ac.in">rajeshmutum@iisc.ac.in</a></div>
+          <div class="ci"><i class="fas fa-phone"></i> +91 7085602923</div>
+          <div class="ci"><i class="fas fa-map-marker-alt"></i> Imphal East, Manipur</div>
+        </div>
+        <div class="soc" style="margin-top:1.2rem;">
+          <a href="https://github.com/Rajesh-Mutum558" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/mutum-rajesh-meitei-141217222/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://stackoverflow.com/users/22186251/mutum-rajesh-meitei" target="_blank"><i class="fab fa-stack-overflow"></i></a>
+          <a href="https://www.facebook.com/mutumrajesh123/" target="_blank"><i class="fab fa-facebook"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <span>&copy; 2025 Mutum Rajesh Meitei</span>
+  <span style="font-style:italic">Designed in Bangalore</span>
+</footer>
+
+<script>
+function cm(){document.querySelector('.nav-links').classList.remove('open')}
+
+// Theme toggle
+function toggleTheme(){
+  const html=document.documentElement;
+  const icon=document.getElementById('theme-icon');
+  if(html.getAttribute('data-theme')==='light'){
+    html.setAttribute('data-theme','dark');
+    icon.className='fas fa-sun';
+    localStorage.setItem('theme','dark');
+  } else {
+    html.setAttribute('data-theme','light');
+    icon.className='fas fa-moon';
+    localStorage.setItem('theme','light');
+  }
+}
+// Load saved theme
+(function(){
+  const saved=localStorage.getItem('theme');
+  if(saved==='dark'){
+    document.documentElement.setAttribute('data-theme','dark');
+    document.getElementById('theme-icon').className='fas fa-sun';
+  }
+})();
+
+// Scroll reveal
+const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('on');ro.unobserve(x.target)}})},{threshold:.08});
+document.querySelectorAll('.rv').forEach(e=>ro.observe(e));
+
+// Skill bars
+const bo=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.querySelectorAll('.bar-fill').forEach(b=>{b.style.width=b.dataset.w+'%'});bo.unobserve(x.target)}})},{threshold:.3});
+document.querySelectorAll('.bars').forEach(e=>bo.observe(e));
+
+// Close menu on outside click
+document.addEventListener('click',e=>{if(!document.querySelector('.nav').contains(e.target))cm()});
+</script>
+</body>
+</html>
